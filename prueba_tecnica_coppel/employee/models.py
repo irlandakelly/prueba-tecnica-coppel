@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 class TbCatEmpleadosPrueba(models.Model):
     nombre = models.CharField(max_length=50)
@@ -11,19 +12,12 @@ class TbCatEmpleadosPrueba(models.Model):
     curp = models.CharField(max_length=18)
     nss = models.CharField(max_length=11)
     fecha_alta = models.DateField(auto_now_add=True)
-    num_empleado = models.AutoField(primary_key=True)
-    puesto = models.ForeignKey('TbCatPuestosPrueba', on_delete=models.CASCADE)
+    num_empleado = models.AutoField(primary_key=True, unique=True)
+    puesto = models.ForeignKey('job.TbCatPuestosPrueba', on_delete=models.CASCADE)
     fecha_baja = models.DateField(default='1900-01-01')
     estatus = models.SmallIntegerField(default=1)
     causa_baja = models.CharField(max_length=255, default='')
 
 
-class TbCatPuestosPrueba(models.Model):
-    fecha_alta = models.DateField(auto_now_add=True)
-    id_puesto = models.BigAutoField(primary_key=True)
-    descripcion = models.CharField(max_length=100)
-    estatus = models.SmallIntegerField(default=1)
-    fecha_baja = models.DateField(default='1900-01-01')
-    empleado_registra = models.IntegerField(null=False)
-    empleado_baja = models.IntegerField(null=False)
+
 
