@@ -13,3 +13,11 @@ class RegistrarPuesto(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({'Estatus':'1', 'Mensaje':'Puesto agregado correctamente.'})
+
+class ActualizarPuesto(APIView):
+    def post(self, request):
+        data = request.data
+        serializer = PuestoSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'Estatus':'1', 'Mensaje':'Puesto actualizado correctamente.'})
