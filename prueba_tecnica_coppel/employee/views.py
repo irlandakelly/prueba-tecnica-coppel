@@ -1,11 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect
 from employee.models import TbCatEmpleadosPrueba
 from employee.serializers import EmpleadoSerializer
+from employee.forms import EmpleadoForm
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework import status
-from django.http import HttpResponse
 from datetime import datetime
 
 # Create your views here.
@@ -58,9 +58,7 @@ class BajaEmpleado(APIView):
             return Response({'Estatus':'-1', 'Mensaje':'Empleado ' + str(empleado_id) + ' no se pudo dar de baja debido a que no existe.'})
 
 
-class DetalleEmpleados(APIView):
-    permission_classes = (AllowAny,)
-    def get(self, request):
-        empleado_list = TbCatEmpleadosPrueba.objects.all()
-        serializer = EmpleadoSerializer(empleado_list, many=True)
-        return Response(serializer.data)
+
+def detalle_empleados(request):
+    empleados = TbCatEmpleadosPrueba.objects.all()
+    return render(request,"detalles.html",{'empleados':empleados})

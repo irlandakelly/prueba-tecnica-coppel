@@ -1,0 +1,58 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>Detalles de Empleados</title>  
+     {% load static %}  
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>  
+</head>  
+<body>  
+<table class="table table-striped table-bordered table-sm">  
+    <thead class="thead-dark">  
+    <tr>  
+        <th>KeyX</th>  
+        <th>Nombre</th>  
+        <th>Apellido Paterno</th>  
+        <th>Apellido Materno</th>  
+        <th>Dirección</th>
+        <th>CP</th>
+        <th>Teléfono</th>
+        <th>CURP</th>
+        <th>NSS</th>
+        <th>Fecha de Alta</th>
+        <th>Puesto</th>
+        <th>Fecha de Baja</th>
+        <th>Estatus</th>
+        <th>Causa de Baja</th>
+    </tr>  
+    </thead>  
+    <tbody>  
+{% for empleado in empleados %}  
+    <tr>  
+        <td>{{ empleado.keyx }}</td>  
+        <td>{{ empleado.nombre }}</td>  
+        <td>{{ empleado.ap_paterno }}</td>  
+        <td>{{ empleado.ap_materno }}</td>
+        <td>{{ empleado.direccion }}</td>
+        <td>{{ empleado.cp }}</td>
+        <td>{{ empleado.telefono }}</td>
+        <td>{{ empleado.curp }}</td>
+        <td>{{ empleado.nss }}</td>
+        <td>{{ empleado.fecha_alta }}</td>
+        <td>{{ empleado.num_empleado }}</td>
+        <td>{{ empleado.puesto }}</td>
+        <td>{{ empleado.fecha_baja }}</td>
+        <td>{{ empleado.estatus }}</td>
+        <td>{{ empleado.causa_baja }}</td>
+        <td>  
+            <a href="/empleados/modificar/{{ empleado.num_empleado }}"><span class="glyphicon glyphicon-pencil" >Modificar</span></a>  
+            <a href="/empleados/baja/{{ empleado.num_empleado }}">Borrar</a>  
+        </td>  
+    </tr>  
+{% endfor %}  
+    </tbody>  
+</table>  
+<br>  
+<br>  
+<center><a href="/empleados/registrar" class="btn btn-primary">Añadir Nuevo Empleado</a></center>  
+</body>  
