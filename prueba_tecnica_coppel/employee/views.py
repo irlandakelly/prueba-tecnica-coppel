@@ -7,9 +7,26 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework import status
 from datetime import datetime
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 
+def registrar_empleado(request):
+    if request.method == "POST":
+        form = EmpleadoForm(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+                num_empleado = form.cleaned_data['num_empleado']
+                return HttpResponseRedirect(reverse('detalle_empleado', args=[num_empleado]))
+            except:
+                pass
+        else:
+            print(form.errors)
+    else:
+        form = EmpleadoForm()   
+    return render(request, 'index.html', {'form':form})
 
 class RegistrarEmpleado(APIView):
     def post(self, request):
@@ -62,3 +79,8 @@ class BajaEmpleado(APIView):
 def detalle_empleados(request):
     empleados = TbCatEmpleadosPrueba.objects.all()
     return render(request,"detalles.html",{'empleados':empleados})
+
+
+def detalle_empleado(request, id):
+    empleado = TbCatEmpleadosPrueba.objects.filter(num_empleado=id)
+    return render(request,"detalles.html",{'empleados':empleado})

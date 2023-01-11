@@ -1,0 +1,89 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>Index</title>  
+    {% load static %}  
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>  
+</head>  
+<body>  
+<form method="POST" class="post-form" /">  
+        {% csrf_token %}  
+    <div class="container">  
+<br>  
+    <div class="form-group row">  
+    <label class="col-sm-1 col-form-label"></label>  
+    <div class="col-sm-4">  
+    <h3>Capturar Información</h3>  
+    </div>  
+  </div> 
+  <div class="form-group row">  
+    <label class="col-sm-2 col-form-label">Número de empleado:</label>  
+    <div class="col-sm-4">  
+      {{ form.num_empleado }}  
+    </div>  
+  </div> 
+    <div class="form-group row">  
+    <label class="col-sm-2 col-form-label">Nombre:</label>  
+    <div class="col-sm-4">  
+      {{ form.nombre }}  
+    </div>  
+  </div>  
+  <div class="form-group row">  
+    <label class="col-sm-2 col-form-label">Apellido Paterno:</label>  
+    <div class="col-sm-4">  
+      {{ form.ap_paterno }}  
+    </div>  
+  </div>  
+    <div class="form-group row">  
+    <label class="col-sm-2 col-form-label">Apellido Materno:</label>  
+    <div class="col-sm-4">  
+      {{ form.ap_materno }}  
+    </div>  
+  </div>  
+    <div class="form-group row">  
+    <label class="col-sm-2 col-form-label">Dirección:</label>  
+    <div class="col-sm-4">  
+      {{ form.direccion }}  
+    </div>  
+  </div>
+  <div class="form-group row">  
+    <label class="col-sm-2 col-form-label">CP:</label>  
+    <div class="col-sm-4">  
+      {{ form.cp }}  
+    </div>  
+  </div>
+  <div class="form-group row">  
+    <label class="col-sm-2 col-form-label">Teléfono:</label>  
+    <div class="col-sm-4">  
+      {{ form.telefono }}  
+    </div>  
+  </div>
+  <div class="form-group row">  
+    <label class="col-sm-2 col-form-label">CURP:</label>  
+    <div class="col-sm-4">  
+      {{ form.curp }}  
+    </div>  
+  </div>
+  <div class="form-group row">  
+    <label class="col-sm-2 col-form-label">NSS:</label>  
+    <div class="col-sm-4">  
+      {{ form.nss }}  
+    </div>  
+  </div>
+  <div class="form-group row">  
+    <label class="col-sm-2 col-form-label">Puesto:</label>  
+    <div class="col-sm-4">  
+      {{ form.puesto }}  
+    </div>  
+  </div>
+    <div class="form-group row">  
+    <label class="col-sm-1 col-form-label"></label>  
+    <div class="col-sm-4">  
+    <button type="submit" class="btn btn-primary">Enviar</button>  
+    </div>  
+  </div>  
+    </div>  
+</form>  
+</body>  
+</html>  

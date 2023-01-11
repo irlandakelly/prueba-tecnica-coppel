@@ -25,7 +25,6 @@
     </tr>  
     </thead>  
     <tbody>  
-{% for empleado in empleados %}  
     <tr>  
         <td>{{ empleado.num_empleado }}</td>  
         <td>{{ empleado.nombre }}</td>  
@@ -44,7 +43,6 @@
             <a href="/empleados/baja/{{ empleado.num_empleado }}">Borrar</a>  
         </td>  
     </tr>  
-{% endfor %}  
     </tbody>  
 </table>  
 <br>  

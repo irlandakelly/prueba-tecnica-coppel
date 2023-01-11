@@ -14,11 +14,8 @@ class TbCatEmpleadosPrueba(models.Model):
     nss = models.CharField(max_length=11)
     fecha_alta = models.DateField(auto_now_add=True)
     num_empleado = models.IntegerField(unique=True)
-    puesto = models.ForeignKey('job.TbCatPuestosPrueba', on_delete=models.CASCADE)
+    puesto = models.ForeignKey('job.TbCatPuestosPrueba',
+                               on_delete=models.CASCADE)
     fecha_baja = models.DateField(default='1900-01-01')
     estatus = models.SmallIntegerField(default=1)
     causa_baja = models.CharField(max_length=255, default='')
-
-
-
-

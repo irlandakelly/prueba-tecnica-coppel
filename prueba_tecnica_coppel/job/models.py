@@ -10,3 +10,6 @@ class TbCatPuestosPrueba(models.Model):
     fecha_baja = models.DateField(default='1900-01-01')
     empleado_registra = models.IntegerField(null=False)
     empleado_baja = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return '%s' % self.descripcion
