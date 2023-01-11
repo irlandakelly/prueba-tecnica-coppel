@@ -1,4 +1,5 @@
-<!DOCTYPE html>  
+{% extends "base.html" %}
+{% block content %}
 <html lang="en">  
 <head>  
     <meta charset="UTF-8">  
@@ -21,7 +22,6 @@
         <th>NSS</th>
         <th>Puesto</th>
         <th>Estatus</th>
-        <th>Mensaje</th>
     </tr>  
     </thead>  
     <tbody>  
@@ -38,16 +38,23 @@
         <td>{{ empleado.nss }}</td>
         <td>{{ empleado.puesto }}</td>
         <td>{{ empleado.estatus }}</td>
-
         <td>  
             <a href="/empleados/modificar/{{ empleado.num_empleado }}"><span class="glyphicon glyphicon-pencil" >Modificar</span></a>  
-            <a href="/empleados/baja/{{ empleado.num_empleado }}">Borrar</a>  
+            <a href="/empleados/baja/{{ empleado.num_empleado }}">Baja</a>  
         </td>  
     </tr>  
 {% endfor %}  
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
     </tbody>  
 </table>  
 <br>  
 <br>  
 <center><a href="/empleados/registrar" class="btn btn-primary">Añadir Nuevo Empleado</a></center>  
 </body>  
+{% endblock %}

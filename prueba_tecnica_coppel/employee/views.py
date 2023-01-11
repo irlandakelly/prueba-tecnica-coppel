@@ -1,14 +1,12 @@
 from django.shortcuts import render, redirect
 from employee.models import TbCatEmpleadosPrueba
-from employee.serializers import EmpleadoSerializer
-from employee.forms import EmpleadoForm
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
-from rest_framework import status
+from django import forms
+from employee.forms import EmpleadoForm, BajaEmpleadoForm
+from job.models import TbCatPuestosPrueba
 from datetime import datetime
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 
 # Create your views here.
 
@@ -19,61 +17,69 @@ def registrar_empleado(request):
             try:
                 form.save()
                 num_empleado = form.cleaned_data['num_empleado']
+                messages.info(request, 'Estatus = 1')
+                messages.info(request, 'Empleado ' + str(num_empleado) + ' registrado exitosamente.')
                 return HttpResponseRedirect(reverse('detalle_empleado', args=[num_empleado]))
             except:
                 pass
         else:
-            print(form.errors)
+            messages.info(request, 'Estatus = -1')
+            messages.info(request, 'Empleado ya se encuentra registrado.')
     else:
         form = EmpleadoForm()   
-    return render(request, 'index.html', {'form':form})
-
-class RegistrarEmpleado(APIView):
-    def post(self, request):
-        data = request.data
-        serializer = EmpleadoSerializer(data=data)
-        empleado_id = data["num_empleado"]
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'Estatus':'1', 'Mensaje':'Empleado ' + str(empleado_id) + ' registrado exitosamente.', 'Datos':serializer.data})
-        else: 
-            return Response({'Estatus':'-1', 'Mensaje':'Empleado ' + str(empleado_id) + ' ya se encuentra registrado.'})
+    return render(request, 'registrar.html', {'form':form})
 
 
-class ModificarEmpleado(APIView):
-    permission_classes = (AllowAny,)
-    def put(self, request):
-        data = request.data
-        try:
-            empleado_id = data["num_empleado"]
-            empleado_obj = TbCatEmpleadosPrueba.objects.get(pk=empleado_id)
-            serializer = EmpleadoSerializer(instance=empleado_obj, data=data, partial=True)
-            if serializer.is_valid():
-                serializer.save()
-                return Response({'Estatus':'1', 'Mensaje':'Empleado ' + str(empleado_id) + ' modificado exitosamente.'})
-            else: 
-                return Response({'Estatus':'-1', 'Mensaje':'Empleado ' + str(empleado_id) + ' no se modificó información.'})
-        except: 
-            return Response({'Estatus':'-1', 'Mensaje':'Empleado ' + str(empleado_id) + ' no se modificó información.'})
-        
+def modificar_empleado(request, id):
+    empleado = TbCatEmpleadosPrueba.objects.get(num_empleado=id)
+    puestos = TbCatPuestosPrueba.objects.all()
+    if request.method == "POST":
+        form = EmpleadoForm(request.POST, instance=empleado)
+        if form.is_valid():
+            try:
+                form.save()
+                num_empleado = form.cleaned_data['num_empleado']
+                messages.info(request, 'Estatus = 1')
+                messages.info(request, 'Empleado ' + str(num_empleado) + ' modificado exitosamente.')
+                return HttpResponseRedirect(reverse('detalle_empleado', args=[num_empleado]))
+            except: 
+                pass
+        else:
+            messages.info(request, 'Estatus = -1')
+            messages.info(request, 'No se modificó información.')
+    else:
+        form = EmpleadoForm()
+    context = {'empleado':empleado, 'form':form, 'puestos':puestos}
+    return render(request, 'modificar.html', context)
 
 
-class BajaEmpleado(APIView):
-    permission_classes = (AllowAny,)
-    def put(self, request):
-        data = request.data
-        try:
-            empleado_id = data["num_empleado"]
-            empleado_obj = TbCatEmpleadosPrueba.objects.get(pk=empleado_id)
-            serializer = EmpleadoSerializer(instance=empleado_obj, data=data, partial=True)
-            if serializer.is_valid():
-                serializer.save(estatus=0, fecha_baja=datetime.now().date())
-                return Response({'Estatus':'1', 'Mensaje':'Empleado ' + str(empleado_id) + ' dado de baja exitosamente.'})
-            else: 
-                return Response({'Estatus':'-1', 'Mensaje':'Error.'})
-        except: 
-            return Response({'Estatus':'-1', 'Mensaje':'Empleado ' + str(empleado_id) + ' no se pudo dar de baja debido a que no existe.'})
-
+def baja_empleado(request, id):
+    empleado = TbCatEmpleadosPrueba.objects.get(num_empleado=id)
+    date = datetime.now().date()
+    empleado.fecha_baja = date
+    empleado.estatus = 0
+    
+    print(date)
+    if request.method == "POST":
+        form = BajaEmpleadoForm(request.POST, instance=empleado)
+        if form.is_valid():
+            try:
+                form.save()
+                num_empleado = form.cleaned_data['num_empleado']
+                messages.info(request, 'Estatus = 1')
+                messages.info(request, 'Empleado ' + str(num_empleado) + ' dado de baja correctamente.')
+                return HttpResponseRedirect(reverse('detalle_empleado', args=[num_empleado]))
+            except: 
+                pass
+        else:
+            print(form.errors)
+            messages.info(request, 'Estatus = -1')
+            messages.info(request, 'No se pudo dar de baja.')
+    else:
+        form = EmpleadoForm()
+    
+    context = {'empleado':empleado, 'form':form}
+    return render(request, 'baja.html', context)
 
 
 def detalle_empleados(request):

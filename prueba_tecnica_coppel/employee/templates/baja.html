@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>Dar de baja a empleado</title>  
+    {% load static %}  
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>  
+</head>  
+<body>  
+<form method="POST" class="post-form">  
+        {% csrf_token %}  
+    <div class="container">  
+<br>  
+    <div class="form-group row">  
+    <label class="col-sm-1 col-form-label"></label>  
+    <div class="col-sm-4">  
+    <h3>Dar de baja a empleado</h3>  
+    </div>  
+  </div>  
+    <div class="form-group row">  
+    <label class="col-sm-2 col-form-label">Núm. de Empleado:</label>  
+    <div class="col-sm-4">  
+        <input type="text" name="num_empleado" id="id_eid" readonly value="{{ empleado.num_empleado }}"/>  
+    </div>  
+  </div> 
+  <div class="form-group row">  
+    <label class="col-sm-2 col-form-label">Causa de Baja:</label>  
+    <div class="col-sm-4">  
+        <input type="text" name="causa_baja" id="id_econtact" required value="{{ empleado.causa_baja }}" />  
+    </div>  
+  </div> 
+  <div class="col-sm-4">  
+    <input type="hidden" name="fecha_baja" id="id_econtact" required value="{{ empleado.fecha_baja|date:'Y-m-d' }}" />  
+</div>  
+<div class="col-sm-4">  
+    <input type="hidden" name="estatus" id="id_econtact" required value="{{ empleado.estatus }}" />  
+</div>  
+  
+
+    <div class="form-group row">  
+    <label class="col-sm-1 col-form-label"></label>  
+    <div class="col-sm-4">  
+    <button type="submit" class="btn btn-success">Dar de baja</button>  
+    </div>  
+  </div>  
+    </div> 
+    {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %} 
+</form>  
+</body>  
+</html>  
+{% endblock %}
