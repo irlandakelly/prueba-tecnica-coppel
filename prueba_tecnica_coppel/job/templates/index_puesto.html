@@ -1,0 +1,71 @@
+{% extends "base.html" %} {% block content %}
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Menú</title>
+    {% load static %}
+  </head>
+  <body>
+    <form method="POST" class="post-form">
+      {% csrf_token %}
+      <div class="container h-100">
+        <div
+          class="d-flex flex-grow-1 aligns-items-center justify-content-center"
+        >
+          <div>
+            <br />
+            <br />
+            <br />
+            <h3>Menú Puestos</h3>
+          </div>
+        </div>
+        <div class="d-flex aligns-items-center justify-content-center">
+          <label>ID de Puesto:</label>
+        </div>
+        <div class="d-flex aligns-items-center justify-content-center">
+          <div class="d-flex aligns-items-center justify-content-center">
+            <input
+              class="form-control form-control-sm"
+              type="text"
+              name="num_empleado"
+            />
+          </div>
+        </div>
+        <br />
+        <div class="d-flex aligns-items-center justify-content-center">
+          <select
+            name="menu_principal"
+            class="form-select form-select-sm"
+            style="width: 200px"
+            required
+          >
+            <option selected="selected">Seleccione una opción:</option>
+            <option value="1">1. Registrar nuevo</option>
+            <option value="2">2. Modificar</option>
+            <option value="3">3. Dar de baja</option>
+            <option value="4">4. Consultar</option>
+          </select>
+        </div>
+        <div class="d-flex aligns-items-center justify-content-center">
+          <label class="col-sm-1 col-form-label"></label>
+        </div>
+        <div class="d-flex aligns-items-center justify-content-center">
+          <button type="submit" class="btn btn-primary">Enviar</button>
+        </div>
+        <br />
+        <div>
+          {% if messages %} {% for message in messages %}
+          <div
+            class="alert {{ message.tags }} alert-dismissible fade show d-flex aligns-items-center justify-content-center flex-grow-1"
+            role="alert"
+          >
+            {{ message }}
+          </div>
+          {% endfor %} {% endif %}
+        </div>
+      </div>
+    </form>
+  </body>
+</html>
+{% endblock %}
