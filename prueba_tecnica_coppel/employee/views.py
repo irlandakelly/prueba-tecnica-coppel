@@ -24,10 +24,22 @@ def menu(request):
                 return HttpResponseRedirect(reverse('baja_empleado', args=[num_empleado]))
             elif opcion == '4':
                 if num_empleado == '0':
-                    messages.info(request, 'Estatus = 1')
-                    messages.info(request, 'Empleados encontrados.')
+                    messages.success(request, 'Estatus = 1')
+                    messages.success(request, 'Empleados encontrados.')
                     return HttpResponseRedirect(reverse('detalle'))
                 else:
+                    try:
+                        empleado = TbCatEmpleadosPrueba.objects.get(num_empleado=num_empleado)
+                        if empleado.estatus == 0:
+                            messages.error(request, 'Estatus = -1')
+                            messages.error(request, 'Empleado ' + str(num_empleado) + ' no encontrado.')
+                            return HttpResponseRedirect(reverse('menu_principal'))
+                        else:
+                            messages.success(request, 'Estatus = 1')
+                            messages.success(request, 'Empleado ' + str(num_empleado) + ' encontrado.')
+                            return render(request,"detalles.html",{'empleados':empleado})
+                    except:
+                        pass
                     return HttpResponseRedirect(reverse('detalle_empleado', args=[num_empleado]))      
     else:
         form = MenuEmpleadoForm()
@@ -65,13 +77,13 @@ def modificar_empleado(request, id):
                 try:
                     form.save()
                     num_empleado = form.cleaned_data['num_empleado']
-                    messages.info(request, 'Estatus = 1')
-                    messages.info(request, 'Empleado ' + str(num_empleado) + ' modificado exitosamente.')
+                    messages.success(request, 'Estatus = 1')
+                    messages.success(request, 'Empleado ' + str(num_empleado) + ' modificado exitosamente.')
                     return HttpResponseRedirect(reverse('detalle_empleado', args=[num_empleado]))
                 except: 
                     pass
             else:
-                messages.error(request, 'Estatus = -1 \n No se modificó información.')
+                messages.error(request, 'Estatus = -1')
                 messages.error(request, 'Empleado ' + str(id) + ' No se modificó información.')
         else:
             form = EmpleadoForm()
@@ -95,8 +107,8 @@ def baja_empleado(request, id):
                 try:
                     form.save()
                     num_empleado = form.cleaned_data['num_empleado']
-                    messages.info(request, 'Estatus = 1')
-                    messages.info(request, 'Empleado ' + str(num_empleado) + ' dado de baja correctamente.')
+                    messages.success(request, 'Estatus = 1')
+                    messages.success(request, 'Empleado ' + str(num_empleado) + ' dado de baja correctamente.')
                     
                 except: 
                     pass
@@ -122,18 +134,14 @@ def detalle_empleados(request):
 def detalle_empleado(request, id):
     try:
         empleado = TbCatEmpleadosPrueba.objects.filter(num_empleado=id)
-        singular = TbCatEmpleadosPrueba.objects.get(num_empleado=id)
 
-        if singular.estatus == 0:
-            messages.error(request, 'Estatus = -1')
-            messages.error(request, 'Empleado ' + str(id) + ' no encontrado.')
-            return HttpResponseRedirect(reverse('menu_principal'))
-        else:
-            messages.info(request, 'Estatus = 1')
-            messages.info(request, 'Empleado ' + str(id) + ' encontrado.')
+        if empleado:
             return render(request,"detalles.html",{'empleados':empleado})
+        else:
+            messages.success(request, 'Estatus = 1')
+            messages.success(request, 'Empleado ' + str(id) + ' encontrado.')
+            return HttpResponseRedirect(reverse('menu_principal'))
     except:
-        messages.error(request, 'Estatus = -1')
-        messages.error(request, 'Empleado ' + str(id) + ' no encontrado.')
-        return HttpResponseRedirect(reverse('menu_principal'))
+        pass
+        
 

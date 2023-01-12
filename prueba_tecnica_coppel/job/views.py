@@ -16,17 +16,29 @@ def menu(request):
             id_puesto = request.POST.get('id_puesto')
             opcion = request.POST.get('menu_principal')
             if opcion == '1':
-                return HttpResponseRedirect(reverse('registrar'))
+                return HttpResponseRedirect(reverse('registrar_puesto'))
             elif opcion == '2':
                 return HttpResponseRedirect(reverse('modificar_puesto', args=[id_puesto]))
             elif opcion == '3':
                 return HttpResponseRedirect(reverse('baja_puesto', args=[id_puesto]))
             elif opcion == '4':
                 if id_puesto == '0':
-                    messages.info(request, 'Estatus = 1')
-                    messages.info(request, 'Puestos encontrados.')
+                    messages.success(request, 'Estatus = 1')
+                    messages.success(request, 'Puestos encontrados.')
                     return HttpResponseRedirect(reverse('detalle'))
-                else:
+                else: 
+                    try:
+                        puesto = TbCatPuestosPrueba.objects.get(id_puesto=id_puesto)
+                        if puesto.estatus == 0:
+                            messages.error(request, 'Estatus = -1')
+                            messages.error(request, 'Puesto ' + str(id_puesto) + ' no encontrado.')
+                            return HttpResponseRedirect(reverse('menu_puestos'))
+                        else:
+                            messages.success(request, 'Estatus = 1')
+                            messages.success(request, 'Puesto ' + str(id_puesto) + ' encontrado.')
+                            return render(request,"detalles_puesto.html",{'puestos':puesto})
+                    except:
+                        pass
                     return HttpResponseRedirect(reverse('detalle_puesto', args=[id_puesto]))      
     else:
         form = MenuPuestoForm()
@@ -65,14 +77,14 @@ def modificar_puesto(request, id):
                 try:
                     form.save()
                     id_puesto = form.cleaned_data['id_puesto']
-                    messages.info(request, 'Estatus = 1')
-                    messages.info(request, 'Puesto ' + str(id_puesto) + ' modificado exitosamente.')
+                    messages.success(request, 'Estatus = 1')
+                    messages.success(request, 'Puesto ' + str(id_puesto) + ' modificado exitosamente.')
                     return HttpResponseRedirect(reverse('detalle_puesto', args=[id_puesto]))
                 except: 
                     pass
             else:
                 print(form.errors)
-                messages.error(request, 'Estatus = -1 \n No se modificó información.')
+                messages.error(request, 'Estatus = -1')
                 messages.error(request, 'Ocurrió un error.')
         else:
             form = PuestoForm()
@@ -92,13 +104,14 @@ def baja_puesto(request, id):
 
         if request.method == "POST":
             form = BajaPuestoForm(request.POST, instance=puesto)
+            print('request bien')
             if form.is_valid():
                 try:
                     form.save()
                     id_puesto = form.cleaned_data['id_puesto']
-                    messages.info(request, 'Estatus = 1')
-                    messages.info(request, 'puesto ' + str(id_puesto) + ' dado de baja correctamente.')
-                    
+                    messages.success(request, 'Estatus = 1')
+                    messages.success(request, 'Puesto ' + str(id_puesto) + ' dado de baja correctamente.')
+                    print('y no msg')
                 except: 
                     pass
             else:
@@ -112,7 +125,7 @@ def baja_puesto(request, id):
     except:
         messages.error(request, 'Estatus = -1')
         messages.error(request, 'No se modificó el puesto ' + str(id) + ' porque no existe.')
-        return HttpResponseRedirect(reverse('menu_principal'))
+        return HttpResponseRedirect(reverse('menu_puestos'))
 
 
 def detalle_puestos(request):
@@ -123,18 +136,12 @@ def detalle_puestos(request):
 def detalle_puesto(request, id):
     try:
         puesto = TbCatPuestosPrueba.objects.filter(id_puesto=id)
-        singular = TbCatPuestosPrueba.objects.get(id_puesto=id)
-
-        if singular.estatus == 0:
+        if puesto:
+            return render(request,"detalles_puesto.html",{'puestos':puesto})
+        else:
             messages.error(request, 'Estatus = -1')
             messages.error(request, 'Puesto ' + str(id) + ' no encontrado.')
-            return HttpResponseRedirect(reverse('menu_principal'))
-        else:
-            messages.info(request, 'Estatus = 1')
-            messages.info(request, 'Puesto ' + str(id) + ' encontrado.')
-            return render(request,"detalles_puesto.html",{'puestos':puesto})
+        return HttpResponseRedirect(reverse('menu_puestos'))
     except:
-        messages.error(request, 'Estatus = -1')
-        messages.error(request, 'Puesto ' + str(id) + ' no encontrado.')
-        return HttpResponseRedirect(reverse('menu_principal'))
+        pass
 

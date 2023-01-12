@@ -2,8 +2,8 @@ from django.urls import path
 from job import views
 
 urlpatterns = [
-    path('', views.menu, name='menu_principal'),
-    path('registrar/', views.registrar_puesto, name='registrar'),
+    path('', views.menu, name='menu_puestos'),
+    path('registrar/', views.registrar_puesto, name='registrar_puesto'),
     path('detalle/', views.detalle_puestos, name='detalle'),
     path('detalle/<int:id>/', views.detalle_puesto, name='detalle_puesto'),
     path('modificar/<int:id>/', views.modificar_puesto, name='modificar_puesto'),
