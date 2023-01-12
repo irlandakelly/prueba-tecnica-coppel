@@ -1,9 +1,12 @@
 from django.urls import path
-from job.views import RegistrarPuesto, ModificarPuesto, BajaPuesto, DetallePuestos
+from job import views
 
 urlpatterns = [
-    path('registrar', RegistrarPuesto.as_view()),
-    path('modificar', ModificarPuesto.as_view()),
-    path('baja', BajaPuesto.as_view()),
-    path('detalle', DetallePuestos.as_view()),
+    path('', views.menu, name='menu_puestos'),
+    path('registrar/', views.registrar_puesto, name='registrar_puesto'),
+    path('detalle/', views.detalle_puestos, name='detalle'),
+    path('detalle/<int:id>/', views.detalle_puesto, name='detalle_puesto'),
+    path('modificar/<int:id>/', views.modificar_puesto, name='modificar_puesto'),
+    path('baja/', views.baja_puesto, name='baja'),
+    path('baja/<int:id>/', views.baja_puesto, name='baja_puesto'),
 ]

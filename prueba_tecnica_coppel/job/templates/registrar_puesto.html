@@ -1,0 +1,59 @@
+{% extends "base.html" %} {% block content %}
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Capturar Puesto</title>
+    {% load static %}
+  </head>
+  <body>
+    <form method="POST" class="post-form">
+      {% csrf_token %}
+      <div class="container h-100">
+        <br />
+        <div class="d-flex flex-grow-1 aligns-items-center justify-content-center">
+          <label class="col-sm-1 col-form-label"></label>
+          <div class="d-flex flex-grow-1 aligns-items-center justify-content-center">
+            <h3>Capturar Información</h3>
+          </div>
+        </div>
+        <div class="d-flex flex-grow-1 aligns-items-center justify-content-center">
+          <label class="col-sm-2 col-form-label">ID de puesto:</label>
+          <div>{{ form.id_puesto }}</div>
+        </div>
+        <div class="d-flex flex-grow-1 aligns-items-center justify-content-center">
+          <label class="col-sm-2 col-form-label">Descripcion:</label>
+          <div>{{ form.descripcion }}</div>
+        </div>
+        <div class="d-flex flex-grow-1 aligns-items-center justify-content-center">
+          <label class="col-sm-2 col-form-label">Empleado que registra:</label>
+          <div>{{ form.empleado_registra }}</div>
+        </div>
+        <div class="d-flex flex-grow-1 aligns-items-center justify-content-center">
+          <label></label>
+          <div class="d-flex flex-grow-1 aligns-items-center justify-content-center">
+            <center><a href="/puestos/" class="btn btn-primary">Menú principal</a></center>
+            <label class="col-sm-1 col-form-label"></label> 
+            <button type="submit" class="btn btn-success">Enviar</button>
+            
+        </div>
+      </div>
+
+      <br />
+      <div class="d-flex flex-grow-1 aligns-items-center justify-content-center">
+      <div>
+      <div>
+      {% if messages %} {% for message in messages %}
+      <div
+        class="alert {{ message.tags }} alert-dismissible fade show d-flex aligns-items-center justify-content-center flex-grow-1"
+        role="alert"
+      >
+        {{ message }}
+      </div>
+      {% endfor %} {% endif %}
+    </div>
+  </div>
+    </form>
+  </body>
+</html>
+{% endblock %}
