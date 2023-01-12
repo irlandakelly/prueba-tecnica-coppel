@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from job.models import TbCatPuestosPrueba
-from job.forms import PuestoForm, BajaPuestoForm, MenuPuestoForm
+from job.forms import PuestoForm, BajaPuestoForm, MenuPuestoForm, ModificarPuestoForm
 from datetime import datetime
 from django.urls import reverse
 from django.http import HttpResponseRedirect
@@ -30,7 +30,7 @@ def menu(request):
                     return HttpResponseRedirect(reverse('detalle_puesto', args=[id_puesto]))      
     else:
         form = MenuPuestoForm()
-    return render(request, 'index.html', {'form':form})
+    return render(request, 'index_puesto.html', {'form':form})
 
 
 
@@ -51,15 +51,16 @@ def registrar_puesto(request):
             messages.error(request, 'Puesto ya se encuentra registrado.')
     else:
         form = PuestoForm()   
-    return render(request, 'registrar.html', {'form':form})
+    return render(request, 'registrar_puesto.html', {'form':form})
 
 
 def modificar_puesto(request, id):
     try:
         puesto = TbCatPuestosPrueba.objects.get(id_puesto=id)
         puestos = TbCatPuestosPrueba.objects.all()
+        print(str(id))
         if request.method == "POST":
-            form = PuestoForm(request.POST, instance=puesto)
+            form = ModificarPuestoForm(request.POST, instance=puesto)
             if form.is_valid():
                 try:
                     form.save()
@@ -70,12 +71,13 @@ def modificar_puesto(request, id):
                 except: 
                     pass
             else:
+                print(form.errors)
                 messages.error(request, 'Estatus = -1 \n No se modificó información.')
-                messages.error(request, 'Puesto ' + str(id) + ' No se modificó información.')
+                messages.error(request, 'Ocurrió un error.')
         else:
             form = PuestoForm()
         context = {'puesto':puesto, 'form':form, 'puestos':puestos}
-        return render(request, 'modificar.html', context)
+        return render(request, 'modificar_puesto.html', context)
     except:
         messages.error(request, 'Estatus = -1')
         messages.error(request, 'Puesto ' + str(id) + ' no se modificó información.')
@@ -106,7 +108,7 @@ def baja_puesto(request, id):
             form = PuestoForm()
         
         context = {'puesto':puesto, 'form':form}
-        return render(request, 'baja.html', context)
+        return render(request, 'baja_puesto.html', context)
     except:
         messages.error(request, 'Estatus = -1')
         messages.error(request, 'No se modificó el puesto ' + str(id) + ' porque no existe.')
@@ -115,7 +117,7 @@ def baja_puesto(request, id):
 
 def detalle_puestos(request):
     puestos = TbCatPuestosPrueba.objects.filter(estatus='1')
-    return render(request,"detalles.html",{'puestos':puestos})
+    return render(request,"detalles_puesto.html",{'puestos':puestos})
 
 
 def detalle_puesto(request, id):
@@ -130,7 +132,7 @@ def detalle_puesto(request, id):
         else:
             messages.info(request, 'Estatus = 1')
             messages.info(request, 'Puesto ' + str(id) + ' encontrado.')
-            return render(request,"detalles.html",{'puestos':puesto})
+            return render(request,"detalles_puesto.html",{'puestos':puesto})
     except:
         messages.error(request, 'Estatus = -1')
         messages.error(request, 'Puesto ' + str(id) + ' no encontrado.')

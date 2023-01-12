@@ -10,6 +10,13 @@ class PuestoForm(forms.ModelForm):
             'id_puesto', 'descripcion', 'empleado_registra'
         ]
 
+class ModificarPuestoForm(forms.ModelForm):
+    class Meta:
+        model = TbCatPuestosPrueba
+        fields = [
+            'id_puesto', 'descripcion'
+        ]
+
 class BajaPuestoForm(forms.ModelForm):
     class Meta:
         model = TbCatPuestosPrueba
