@@ -45,16 +45,16 @@
     </tr>  
 {% endfor %}  
 {% if messages %}
-<ul class="messages">
     {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+        </div>
     {% endfor %}
-</ul>
 {% endif %}
     </tbody>  
 </table>  
 <br>  
-<br>  
-<center><a href="/empleados/registrar" class="btn btn-primary">Añadir Nuevo Empleado</a></center>  
+<br>
+<center><a href="/empleados/" class="btn btn-primary">Menú principal</a></center>
 </body>  
 {% endblock %}

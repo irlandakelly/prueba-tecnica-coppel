@@ -1,103 +1,203 @@
-{% extends "base.html" %}
-{% block content %}
-<html lang="en">  
-<head>  
-    <meta charset="UTF-8">  
-    <title>Modificar Empleado</title>  
-    {% load static %}  
-    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>  
-</head>  
-<body>  
-<form method="POST" class="post-form">  
-        {% csrf_token %}  
-    <div class="container">  
-<br>  
-    <div class="form-group row">  
-    <label class="col-sm-1 col-form-label"></label>  
-    <div class="col-sm-4">  
-    <h3>Modificar Empleado</h3>  
-    </div>  
-  </div>  
-    <div class="form-group row">  
-    <label class="col-sm-2 col-form-label">Núm. de Empleado:</label>  
-    <div class="col-sm-4">  
-        <input type="text" name="num_empleado" id="id_eid" readonly value="{{ empleado.num_empleado }}"/>  
-    </div>  
-  </div>  
-  <div class="form-group row">  
-    <label class="col-sm-2 col-form-label">Nombre:</label>  
-    <div class="col-sm-4">  
-        <input type="text" name="nombre" id="id_ename" readonly value="{{ empleado.nombre }}" />  
-    </div>  
-  </div>  
-    <div class="form-group row">  
-    <label class="col-sm-2 col-form-label">Apellido Paterno:</label>  
-    <div class="col-sm-4">  
-        <input type="text" name="ap_paterno" id="id_eemail" readonly value="{{ empleado.ap_paterno }}" />  
-    </div>  
-  </div>  
-    <div class="form-group row">  
-    <label class="col-sm-2 col-form-label">Apellido Materno:</label>  
-    <div class="col-sm-4">  
-        <input type="text" name="ap_materno" id="id_econtact" readonly value="{{ empleado.ap_materno }}" />  
-    </div>  
-  </div>  
-  <div class="form-group row">  
-    <label class="col-sm-2 col-form-label">Dirección:</label>  
-    <div class="col-sm-4">  
-        <input type="text" name="direccion" id="id_econtact" required value="{{ empleado.direccion }}" />  
-    </div>  
-  </div> 
-  <div class="form-group row">  
-    <label class="col-sm-2 col-form-label">CP:</label>  
-    <div class="col-sm-4">  
-        <input type="text" name="cp" id="id_econtact" required value="{{ empleado.cp }}" />  
-    </div>  
-  </div> 
-  <div class="form-group row">  
-    <label class="col-sm-2 col-form-label">Teléfono:</label>  
-    <div class="col-sm-4">  
-        <input type="text" name="telefono" id="id_econtact" required value="{{ empleado.telefono }}" />  
-    </div>  
-  </div> 
-  <div class="form-group row">  
-    <label class="col-sm-2 col-form-label">CURP:</label>  
-    <div class="col-sm-4">  
-        <input type="text" name="curp" id="id_econtact" required value="{{ empleado.curp }}" />  
-    </div>  
-  </div> 
-  <div class="form-group row">  
-    <label class="col-sm-2 col-form-label">NSS:</label>  
-    <div class="col-sm-4">  
-        <input type="text" name="nss" id="id_econtact" required value="{{ empleado.nss }}" />  
-    </div>  
-  </div> 
-  <div class="form-group row">  
-    <label class="col-sm-2 col-form-label">Puesto:</label>  
-    <div class="col-sm-4"> 
-        <select name="puesto">
-            {% for puesto in puestos %}
-                <option>{{ puesto.descripcion }}<option>
-            {% endfor %}
-        </select> 
-    </div>  
-  </div> 
-
-    <div class="form-group row">  
-    <label class="col-sm-1 col-form-label"></label>  
-    <div class="col-sm-4">  
-    <button type="submit" class="btn btn-success">Actualizar</button>  
-    </div>  
-  </div>  
-    </div> 
-    {% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %} 
-</form>  
-</body>  
-</html> 
+{% extends "base.html" %} {% block content %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Modificar Empleado</title>
+    {% load static %}
+  </head>
+  <body>
+    <form method="POST" class="post-form">
+      {% csrf_token %}
+      <div class="container h-100">
+        <br />
+        <div
+          class="d-flex flex-grow-1 aligns-items-center justify-content-center"
+        >
+          <label class="col-sm-1 col-form-label"></label>
+          <div
+            class="d-flex flex-grow-1 aligns-items-center justify-content-center"
+          >
+          <div>
+            <h3>Modificar Empleado</h3>
+          </div>
+          </div>
+        </div>
+        <div
+          class="d-flex flex-grow-1 aligns-items-center justify-content-center"
+        >
+          <label class="col-sm-2 col-form-label">Núm. de Empleado:</label>
+          <div>
+            <input
+              type="text"
+              name="num_empleado"
+              id="id_eid"
+              readonly
+              value="{{ empleado.num_empleado }}"
+              class="form-control form-control-sm"
+            />
+          </div>
+        </div>
+        <div
+          class="d-flex flex-grow-1 aligns-items-center justify-content-center"
+        >
+          <label class="col-sm-2 col-form-label">Nombre:</label>
+          <div>
+            <input
+              type="text"
+              name="nombre"
+              id="id_ename"
+              readonly
+              value="{{ empleado.nombre }}"
+              class="form-control form-control-sm"
+            />
+          </div>
+        </div>
+        <div
+          class="d-flex flex-grow-1 aligns-items-center justify-content-center"
+        >
+          <label class="col-sm-2 col-form-label">Apellido Paterno:</label>
+          <div>
+            <input
+              type="text"
+              name="ap_paterno"
+              id="id_eemail"
+              readonly
+              value="{{ empleado.ap_paterno }}"
+              class="form-control form-control-sm"
+            />
+          </div>
+        </div>
+        <div
+          class="d-flex flex-grow-1 aligns-items-center justify-content-center"
+        >
+          <label class="col-sm-2 col-form-label">Apellido Materno:</label>
+          <div>
+            <input
+              type="text"
+              name="ap_materno"
+              id="id_econtact"
+              readonly
+              value="{{ empleado.ap_materno }}"
+              class="form-control form-control-sm"
+            />
+          </div>
+        </div>
+        <div
+          class="d-flex flex-grow-1 aligns-items-center justify-content-center"
+        >
+          <label class="col-sm-2 col-form-label">Dirección:</label>
+          <div>
+            <input
+              type="text"
+              name="direccion"
+              id="id_econtact"
+              required
+              value="{{ empleado.direccion }}"
+              class="form-control form-control-sm"
+            />
+          </div>
+        </div>
+        <div
+          class="d-flex flex-grow-1 aligns-items-center justify-content-center"
+        >
+          <label class="col-sm-2 col-form-label">CP:</label>
+          <div>
+            <input
+              type="text"
+              name="cp"
+              id="id_econtact"
+              required
+              value="{{ empleado.cp }}"
+              class="form-control form-control-sm"
+            />
+          </div>
+        </div>
+        <div
+          class="d-flex flex-grow-1 aligns-items-center justify-content-center"
+        >
+          <label class="col-sm-2 col-form-label">Teléfono:</label>
+          <div>
+            <input
+              type="text"
+              name="telefono"
+              id="id_econtact"
+              required
+              value="{{ empleado.telefono }}"
+              class="form-control form-control-sm"
+            />
+          </div>
+        </div>
+        <div
+          class="d-flex flex-grow-1 aligns-items-center justify-content-center"
+        >
+          <label class="col-sm-2 col-form-label">CURP:</label>
+          <div>
+            <input
+              type="text"
+              name="curp"
+              id="id_econtact"
+              required
+              value="{{ empleado.curp }}"
+              class="form-control form-control-sm"
+            />
+          </div>
+        </div>
+        <div
+          class="d-flex flex-grow-1 aligns-items-center justify-content-center"
+        >
+          <label class="col-sm-2 col-form-label">NSS:</label>
+          <div>
+            <input
+              type="text"
+              name="nss"
+              id="id_econtact"
+              required
+              value="{{ empleado.nss }}"
+              class="form-control form-control-sm"
+            />
+          </div>
+        </div>
+        <div
+          class="d-flex flex-grow-1 aligns-items-center justify-content-center"
+        >
+        
+          <label class="col-sm-2 col-form-label">Puesto:</label>
+          <div>
+            <select
+              name="puesto"
+              class="form-select form-select-sm"
+              style="width: 173px"
+            >
+              {% for puesto in puestos %}
+              <option>{{ puesto.descripcion }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <br>
+        <div
+          class="d-flex flex-grow-1 aligns-items-center justify-content-center"
+        >
+        <center><a href="/empleados/" class="btn btn-primary">Menú principal</a></center>
+          <label class="col-sm-1 col-form-label"></label> 
+            <button type="submit" class="btn btn-success">Actualizar</button>
+            
+        </div>
+        <br />
+        <div class="d-flex flex-grow-1 aligns-items-center justify-content-center">
+          <div>
+        <div>
+      {% if messages %} {% for message in messages %}
+      <div
+        class="alert {{ message.tags }} alert-dismissible fade show d-flex aligns-items-center justify-content-center flex-grow-1"
+        role="alert"
+      >
+        {{ message }}
+      </div>
+      {% endfor %} {% endif %}
+    </div>
+  </div>
+    </form>
+  </body>
+</html>
 {% endblock %}

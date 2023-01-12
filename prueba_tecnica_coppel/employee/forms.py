@@ -21,3 +21,15 @@ class BajaEmpleadoForm(forms.ModelForm):
         fields = [
             'num_empleado', 'causa_baja', 'fecha_baja', 'estatus'
         ]
+
+menu_opcion = (
+    ("1", "Registrar"),
+    ("2", "Modificar"),
+    ("3", "Dar de baja"),
+    ("4", "Consultar")
+)
+
+class MenuEmpleadoForm(forms.Form):
+    class Meta:
+        num_empleado = forms.IntegerField()
+        opcion = forms.ChoiceField(choices=menu_opcion)
